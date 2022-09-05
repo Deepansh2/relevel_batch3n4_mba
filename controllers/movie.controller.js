@@ -44,6 +44,7 @@
     
      try{
      const movie = await Movie.findOne({_id:req.params.id});
+     
  
      res.status(200).send(movie)
      }catch(err){

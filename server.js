@@ -28,11 +28,13 @@ db.once("open",()=>{
 * Initialize the DB with few seed movie data
 */
 
-const Movie = require('./models/movie.model')
+const Movie = require('./models/movie.model');
+const Theatre = require("./models/theatre.model")
 async function init(){
 
     try{
-    await Movie.collection.drop()
+    await Movie.collection.drop();
+    await Theatre.collection.drop();
 
     const movie = await Movie.create({
         name : "Avatar2 the way of water",
@@ -45,12 +47,22 @@ async function init(){
         posterUrls :["https://images.app.goo.gl/rjwjyrH852Ex8iFW7","https://images.app.goo.gl/euGmNPPtofra4Wmk8"],
         releaseDate : 2022-09-16,
         releaseStatus : "COMING_SOON",
-    })
+    });
+
+    const theatre = await Theatre.create({
+        name : "Magic moment",
+        description : "astra movie with 4D|3D|2D qualities and have a cafeteria",
+        city : "New Delhi",
+        pinCode : "110094",
+        showTypes : ["MORNING","EVENING","NIGHT"],
+        numberOfSeats : 200
+    });
     
-    console.log(movie)
+    console.log(theatre)
+    console.log(movie);
     
 }catch(err){
-    console.log("Error in db initialization",err.message)
+    console.log("Error in db initialization",err.message);
 }
 
 }
@@ -59,7 +71,8 @@ async function init(){
 /**
 * Plug in the routes
 */
-require("./routes/movie.routes")(app)
+require("./routes/movie.routes")(app);
+require("./routes/theatre.routes")(app);
 
 
 /**
@@ -67,5 +80,5 @@ require("./routes/movie.routes")(app)
 */
 app.listen(serverConfig.PORT, ()=>{
 
-    console.log("Server started at port number :",serverConfig.PORT)
+    console.log("Server started at port number :",serverConfig.PORT);
 })
